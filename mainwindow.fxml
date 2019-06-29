@@ -8,7 +8,8 @@
 
         </ListView>
     </left>
-    <center>
+   <center>
         <TextArea fx:id="itemDetailsTextArea"/>
     </center>
 </BorderPane>
+
