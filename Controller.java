@@ -1,8 +1,11 @@
 package com.RadoslawGornik.JavaFx.todolist;
 
 import com.RadoslawGornik.JavaFx.todolist.datamodel.TodoItem;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
@@ -21,6 +24,9 @@ public class Controller {
 
     @FXML
     private TextArea itemDetailsTextArea;
+
+    @FXML
+    private Label deadlineLabel;
 
     public void initialize(){
         TodoItem item1 = new TodoItem("Mail brithday card" ,
@@ -46,18 +52,28 @@ public class Controller {
         todoItemList.add(item4);
         todoItemList.add(item5);
 
+        todolistView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
+            @Override
+            public void changed(ObservableValue<? extends TodoItem> observable, TodoItem oldValue, TodoItem newValue) {
+
+                    if (newValue != null) {
+                    TodoItem item = todolistView.getSelectionModel().getSelectedItem();
+                    itemDetailsTextArea.setText(item.getDetails());
+                }
+            }
+        });
+
         todolistView.getItems().setAll(todoItemList);
         todolistView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        todolistView.getSelectionModel().selectFirst();
+
 
     }
 
     @FXML
     public void handleClickListView(){
         TodoItem item = todolistView.getSelectionModel().getSelectedItem();
-        StringBuilder stringBuilder = new StringBuilder(item.getDetails());
-        stringBuilder.append("\n\n\n\n");
-        stringBuilder.append("Due: ");
-        stringBuilder.append(item.getDeadline().toString());
-        itemDetailsTextArea.setText(stringBuilder.toString());
+        itemDetailsTextArea.setText(item.getDetails());
+        deadlineLabel.setText(item.getDeadline().toString());
     }
 }

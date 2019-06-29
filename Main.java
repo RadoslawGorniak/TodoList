@@ -21,4 +21,8 @@ public class Main extends Application {
         launch(args);
     }
 
+    @Override
+    public void init() throws Exception {
+
+    }
 }
