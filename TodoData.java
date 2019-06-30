@@ -31,10 +31,10 @@ public class TodoData {
     public List<TodoItem> getTodoItemList() {
         return todoItemList;
     }
-
-    public void setTodoItemList(List<TodoItem> todoItemList) {
-        this.todoItemList = todoItemList;
-    }
+//
+//    public void setTodoItemList(List<TodoItem> todoItemList) {
+//        this.todoItemList = todoItemList;
+//    }
 
     public void loadTodoItems() throws IOException{
 
@@ -46,7 +46,7 @@ public class TodoData {
 
         try {
             while ((input = bufferedReader.readLine()) != null) {
-                
+
                 String[] iteamPices = input.split("\t");
                 String shortDescription = iteamPices[0];
                 String details = iteamPices[1];
@@ -75,10 +75,10 @@ public class TodoData {
 
                 TodoItem item = itemIterator.next();
 
-                bufferedWriter.write(String.format("@s\t@s\t@s",
+                bufferedWriter.write(String.format("%s\t%s\t%s",
                         item.getShortDesrciption(),
                         item.getDetails(),
-                        item.getDeadline()));
+                        item.getDeadline().format(formatter)));
 
                 bufferedWriter.newLine();
             }
