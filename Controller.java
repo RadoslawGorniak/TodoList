@@ -1,18 +1,15 @@
 package com.RadoslawGornik.JavaFx.todolist;
-
 import com.RadoslawGornik.JavaFx.todolist.datamodel.TodoData;
 import com.RadoslawGornik.JavaFx.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-
+import java.util.Optional;
 
 public class Controller {
 
@@ -54,13 +51,27 @@ public class Controller {
     public void showNewItemDialog(){
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainBorderPane.getScene().getWindow());
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("todoItemDialog.fxml"));
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("todoItemDialog.fxml"));
-            dialog.getDialogPane().setContent(root);
+            dialog.getDialogPane().setContent(fxmlLoader.load());
         } catch (IOException e) {
-            System.out.println("Couldnt loead the dialog");
+            System.out.println("Couldnt load the dialog");
             e.printStackTrace();
             return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            DialogController controller = fxmlLoader.getController();
+            controller.processResults();
+            System.out.println("OK pressed");
+
+        } else {
+            System.out.println("Cancel preseed");
         }
     }
     @FXML

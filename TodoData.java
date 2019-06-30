@@ -36,6 +36,10 @@ public class TodoData {
 //        this.todoItemList = todoItemList;
 //    }
 
+    public void addTodoItem(TodoItem item){
+        todoItemList.add(item);
+    }
+
     public void loadTodoItems() throws IOException{
 
         todoItemList = FXCollections.observableArrayList();
@@ -88,4 +92,5 @@ public class TodoData {
             }
         }
     }
+
 }
