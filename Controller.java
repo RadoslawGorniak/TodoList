@@ -1,6 +1,5 @@
 package com.RadoslawGornik.JavaFx.todolist;
 
-import com.RadoslawGornik.JavaFx.todolist.datamodel.TodoData;
 import com.RadoslawGornik.JavaFx.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,13 +8,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
+    private List<TodoItem> todoItemList;
 
     @FXML
     private ListView<TodoItem> todolistView;
@@ -30,8 +33,6 @@ public class Controller {
     private BorderPane mainBorderPane;
 
     public void initialize(){
-
-
         todolistView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
             @Override
             public void changed(ObservableValue<? extends TodoItem> observable, TodoItem oldValue, TodoItem newValue) {
@@ -45,9 +46,10 @@ public class Controller {
             }
         });
 
-        todolistView.getItems().setAll(TodoData.getInstance().getTodoItemList());
+        todolistView.getItems().setAll(todoItemList);
         todolistView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         todolistView.getSelectionModel().selectFirst();
+
     }
 
     @FXML
@@ -65,7 +67,6 @@ public class Controller {
     }
     @FXML
     public void handleClickListView(){
-
         TodoItem item = todolistView.getSelectionModel().getSelectedItem();
         itemDetailsTextArea.setText(item.getDetails());
         deadlineLabel.setText(item.getDeadline().toString());
